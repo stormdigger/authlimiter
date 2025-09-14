@@ -1,0 +1,402 @@
+/* Font only (safe to keep global) */
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap');
+
+/* Page-scoped background and base text */
+.page-home,
+.page-app {
+    color: #1f4568;
+    font-family: 'Lato', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
+    background-image: url("https://image.ibb.co/de6JzG/bitmap_1_1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Vars (scoped usage only) */
+.page-home,
+.page-app {
+    --text: #1f4568;
+    --muted: #8198ae;
+    --brand: #3a9fff;
+    --violet: #6f79ff;
+    --purple: #8a3aff;
+    --border: #e6ecf5;
+}
+
+/* Header / Navbar */
+.page-home .nav,
+.page-app .nav {
+    padding: 30px 0;
+    background-color: transparent;
+}
+
+.page-home .nav-inner,
+.page-app .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.page-home .brand,
+.page-app .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-home .brand-mark,
+.page-app .brand-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    display: inline-block;
+    background:
+        radial-gradient(60% 60% at 30% 30%, rgba(34, 197, 94, 0.9), transparent 60%),
+        radial-gradient(60% 60% at 70% 70%, rgba(99, 102, 241, 0.9), transparent 60%),
+        linear-gradient(135deg, #34d399, #22c55e 40%, #60a5fa 70%, #8b5cf6);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .15), 0 0 24px rgba(99, 102, 241, .25), 0 0 22px rgba(34, 197, 94, .25);
+}
+
+.page-home .nav-links,
+.page-app .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.page-home .link,
+.page-app .link {
+    color: var(--text);
+    font-size: 14px;
+}
+
+.page-home .link:hover,
+.page-app .link:hover {
+    color: var(--brand);
+    text-decoration: none;
+}
+
+/* Buttons */
+.page-home .btn,
+.page-app .btn {
+    background-color: #fff;
+    border: 1px solid #ededed;
+    color: #8198ae;
+    border-radius: 20px;
+    padding: 10px 25px;
+    box-shadow: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all .3s ease;
+}
+
+.page-home .btn:hover,
+.page-app .btn:hover {
+    background-color: #fff;
+    color: #8198ae;
+    transform: translateY(-1px);
+}
+
+.page-home .btn-primary,
+.page-app .btn-primary {
+    background-color: var(--brand);
+    color: #fff;
+    border: 1px solid var(--brand);
+    box-shadow: 0px 18px 13px -6px rgba(0, 0, 0, 0.2);
+}
+
+.page-home .btn-primary:hover,
+.page-app .btn-primary:hover {
+    background-color: #63b2fc;
+    border-color: #63b2fc;
+}
+
+/* Hero */
+.page-home .card.hero,
+.page-app .card.hero {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 28px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .08);
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 28px;
+    align-items: center;
+}
+
+.page-home .hero-title,
+.page-app .hero-title {
+    font-size: 30px;
+    margin: 0 0 10px 0;
+    letter-spacing: .5px;
+    font-weight: 900;
+}
+
+.page-home .hero-sub,
+.page-app .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.page-home .hero-visual,
+.page-app .hero-visual {
+    height: 320px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background:
+        radial-gradient(180px 120px at 20% 30%, rgba(34, 197, 94, .2), transparent 60%),
+        radial-gradient(240px 160px at 80% 60%, rgba(96, 165, 250, .2), transparent 60%),
+        radial-gradient(200px 140px at 50% 80%, rgba(139, 92, 246, .2), transparent 60%),
+        rgba(255, 255, 255, .6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+/* Sections */
+.page-home .section,
+.page-app .section {
+    margin-top: 26px;
+}
+
+.page-home .grid,
+.page-app .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.page-home .tile,
+.page-app .tile {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 18px;
+    min-height: 140px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .06);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.page-home .tile:hover,
+.page-app .tile:hover {
+    transform: translateY(-4px);
+    border-color: #c9d9e9;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, .08);
+}
+
+.page-home .muted,
+.page-app .muted {
+    color: var(--muted);
+}
+
+/* GitHub card */
+.page-home .github-card,
+.page-app .github-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .06);
+}
+
+.page-home .github-link,
+.page-app .github-link {
+    font-weight: 800;
+    color: var(--text);
+}
+
+.page-home .github-link:hover,
+.page-app .github-link:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+.page-home .footer,
+.page-app .footer {
+    margin-top: 40px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.page-home .footer h4,
+.page-app .footer h4 {
+    margin: 0 0 8px 0;
+    color: var(--text);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+
+    .page-home .card.hero,
+    .page-app .card.hero {
+        grid-template-columns: 1fr;
+    }
+
+    .page-home .hero-visual,
+    .page-app .hero-visual {
+        height: 220px;
+    }
+
+    .page-home .grid,
+    .page-app .grid {
+        grid-template-columns: 1fr;
+    }
+}
+.page-home,
+.page-app {
+    min-height: 100vh;
+    /* fill viewport */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Let main content grow to push footer to bottom */
+.page-home .container,
+.page-app .container {
+    width: 100%;
+}
+
+/* Optional: space between header and footer when content is short */
+.page-home main,
+.page-app main {
+    flex: 1;
+    /* take remaining space */
+    display: block;
+    /* keep your layout intact */
+}
+/* Eviction modal — consistent look across home and app */
+.page-home .modal-backdrop,
+.page-app .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 8, 23, 0.65);
+    /* deep translucent overlay */
+    backdrop-filter: blur(6px);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    /* above header and content */
+}
+
+/* Modal container */
+.page-home .modal,
+.page-app .modal {
+    width: min(640px, 92%);
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, .25), 0 10px 20px rgba(0, 0, 0, .12);
+    padding: 24px;
+    color: var(--text);
+}
+
+/* Modal title alignment and spacing */
+.page-home .modal .title,
+.page-app .modal .title {
+    margin: 0 0 10px 0;
+    font-weight: 900;
+    letter-spacing: .2px;
+    color: var(--text);
+}
+
+/* Modal explanatory text */
+.page-home .modal p,
+.page-app .modal p {
+    margin: 8px 0 12px 0;
+    color: var(--muted);
+}
+
+/* Session list container */
+.page-home .list,
+.page-app .list {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    max-height: 300px;
+    overflow: auto;
+    padding: 8px;
+}
+
+/* Individual rows: device id + action */
+.page-home .list-row,
+.page-app .list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-home .list-row:last-child,
+.page-app .list-row:last-child {
+    border-bottom: none;
+}
+
+/* Code style for device ids */
+.page-home .list-row code,
+.page-app .list-row code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+    color: var(--text);
+    background: #f7f9fc;
+    border: 1px solid var(--border);
+    padding: 3px 6px;
+    border-radius: 6px;
+}
+
+/* Danger button look (reuse your btn styles baseline) */
+.page-home .btn.btn-danger,
+.page-app .btn.btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    border: 1px solid #dc2626;
+    box-shadow: 0 10px 14px -6px rgba(220, 38, 38, 0.35);
+}
+
+.page-home .btn.btn-danger:hover,
+.page-app .btn.btn-danger:hover {
+    filter: brightness(1.05);
+}
+
+/* Modal bottom button row */
+.page-home .modal .row,
+.page-app .modal .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+/* Small loading state if needed */
+.page-home .loading,
+.page-app .loading {
+    opacity: .85;
+}
+
+/* Responsive tweaks */
+@media (max-width: 520px) {
+
+    .page-home .modal,
+    .page-app .modal {
+        padding: 18px;
+    }
+
+    .page-home .list-row,
+    .page-app .list-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .page-home .list-row code,
+    .page-app .list-row code {
+        max-width: 100%;
+        word-break: break-all;
+    }
+}

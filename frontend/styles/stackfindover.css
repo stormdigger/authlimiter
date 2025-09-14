@@ -1,0 +1,318 @@
+:root {
+    --sf-text: #1a1f36;
+    --sf-blue: #5469d4;
+}
+
+.sf-login-root {
+    background: #fff;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--sf-text);
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+}
+
+.sf-loginbackground {
+    min-height: 692px;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.sf-flex {
+    display: flex;
+}
+
+.sf-center {
+    align-items: center;
+    justify-content: center;
+}
+
+.sf-flex-col {
+    flex-direction: column;
+}
+
+.sf-box-root {
+    box-sizing: border-box;
+}
+
+.sf-loginbackground-grid {
+    display: grid;
+    grid-template-columns: [start] 1fr [left-gutter] repeat(16, 86.6px) [left-gutter] 1fr [end];
+    grid-template-rows: [top] 1fr [top-gutter] repeat(8, 64px) [bottom-gutter] 1fr [bottom];
+    justify-content: center;
+    margin: 0 -2%;
+    transform: rotate(-12deg) skew(-12deg);
+}
+
+.sf-box-divider-light-all-2 {
+    box-shadow: inset 0 0 0 2px #e3e8ee;
+}
+
+.sf-bg-blue {
+    background-color: #5469d4;
+}
+
+.sf-box-bg-white {
+    background-color: #fff;
+}
+
+.sf-bg-blue800 {
+    background-color: #212d63;
+}
+
+.sf-bg-gray100 {
+    background-color: #e3e8ee;
+}
+
+.sf-bg-cyan200 {
+    background-color: #7fd3ed;
+}
+
+.sf-pt-64 {
+    padding-top: 64px;
+}
+
+.sf-pt-48 {
+    padding-top: 48px;
+}
+
+.sf-pt-24 {
+    padding-top: 24px;
+}
+
+.sf-pb-24 {
+    padding-bottom: 24px;
+}
+
+.sf-ph-48 {
+    padding: 48px;
+}
+
+.sf-pb-15 {
+    padding-bottom: 15px;
+}
+
+.sf-formbg {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 448px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: rgba(60, 66, 87, 0.12) 0 7px 14px 0, rgba(0, 0, 0, 0.12) 0 3px 6px 0;
+}
+
+.sf-formbg-inner span {
+    display: block;
+    font-size: 20px;
+    line-height: 28px;
+    color: #1a1f36;
+}
+
+.sf-formbg-outer {}
+
+.sf-grid-50-50 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
+
+.sf-reset-pass a,
+.sf-formbg-inner label {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+}
+
+.sf-reset-pass>a {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.sf-field input,
+.sf-submit {
+    font-size: 16px;
+    line-height: 28px;
+    padding: 8px 16px;
+    width: 100%;
+    min-height: 44px;
+    border-radius: 4px;
+    outline-color: rgb(84 105 212 / 0.5);
+    background: #fff;
+    box-shadow: rgba(60, 66, 87, 0.16) 0 0 0 1px;
+    border: none;
+}
+
+.sf-submit {
+    display: inline-block;
+    text-align: center;
+    background-color: var(--sf-blue);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sf-field-checkbox input {
+    width: 20px;
+    height: 15px;
+    margin-right: 5px;
+    min-height: unset;
+    box-shadow: none;
+}
+
+.sf-field-checkbox label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.sf-ssolink {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    color: var(--sf-blue);
+    text-decoration: none;
+}
+
+.sf-footer-link span {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+}
+
+.sf-listing a {
+    color: #697386;
+    font-weight: 600;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.sf-anim-right-left {
+    animation: sf-right-left 2s ease-in-out infinite;
+}
+
+.sf-anim-left-right {
+    animation: sf-left-right 2s ease-in-out infinite;
+}
+
+.sf-tans3s {
+    animation-duration: 3s;
+}
+
+.sf-tans4s {
+    animation-duration: 4s;
+}
+
+@keyframes sf-left-right {
+    0% {
+        transform: translateX(0)
+    }
+
+    50% {
+        transform: translateX(1000px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+
+@keyframes sf-right-left {
+    0% {
+        transform: translateX(0)
+    }
+
+    50% {
+        transform: translateX(-1000px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+/* Brand */
+.sf-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transform: translateZ(0);
+}
+
+.sf-brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background:
+        radial-gradient(60% 60% at 30% 30%, rgba(34, 197, 94, 0.9), transparent 60%),
+        radial-gradient(60% 60% at 70% 70%, rgba(99, 102, 241, 0.9), transparent 60%),
+        linear-gradient(135deg, #34d399, #22c55e 40%, #60a5fa 70%, #8b5cf6);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 8px 22px rgba(0, 0, 0, 0.25),
+        0 0 28px rgba(99, 102, 241, 0.35),
+        0 0 26px rgba(34, 197, 94, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+.sf-brand-mark::after {
+    content: '';
+    position: absolute;
+    inset: -30%;
+    background: conic-gradient(from 0deg, transparent 0 70%, rgba(255, 255, 255, 0.08) 85%, transparent 100%);
+    animation: sf-spin 8s linear infinite;
+}
+
+.sf-brand-text {
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-size: 28px;
+    background: linear-gradient(120deg, #111827, #1f2937 25%, #34d399 45%, #22c55e 55%, #60a5fa 70%, #8b5cf6 90%, #111827 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+    animation: sf-sheen 5.5s ease-in-out infinite;
+    will-change: transform, filter;
+}
+
+.sf-brand:hover .sf-brand-text {
+    filter: drop-shadow(0 8px 18px rgba(99, 102, 241, 0.25)) drop-shadow(0 6px 16px rgba(34, 197, 94, 0.25));
+    transform: translateY(-1px);
+}
+
+@keyframes sf-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes sf-sheen {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Optional: tighter layout on small screens */
+@media (max-width: 420px) {
+    .sf-brand-mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+    }
+
+    .sf-brand-text {
+        font-size: 24px;
+    }
+}

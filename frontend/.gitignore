@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+.turbo/
+.vercel/
+.env.local
+dist/
+build/
+
+
