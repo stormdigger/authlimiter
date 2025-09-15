@@ -7,6 +7,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+CA_PATH = os.getenv("MYSQL_SSL_CA_PATH", "/opt/render/project/src/backend/certs/aiven-ca.pem")
 
 Base = declarative_base()
 _engine: Optional[Engine] = None
@@ -18,7 +19,6 @@ def _normalized_mysql_url(url: str) -> str:
     norm = url
     if norm.startswith("mysql://"):
         norm = "mysql+pymysql://" + norm[len("mysql://"):]
-    # strip any ssl params to avoid conflicts
     for bad in ("?ssl=true", "&ssl=true", "?ssl_mode=REQUIRED", "&ssl_mode=REQUIRED"):
         norm = norm.replace(bad, "")
     if norm.endswith("?"):
@@ -32,19 +32,19 @@ def init_engine_and_session() -> tuple[Engine, sessionmaker]:
 
     url = _normalized_mysql_url(DATABASE_URL)
 
-    # Build SSL context that trusts Aiven CA
     ssl_ctx = ssl.create_default_context()
-    # Point to the CA you downloaded from Aiven
-    ca_path = os.getenv("MYSQL_SSL_CA_PATH", "backend/certs/aiven-ca.pem")
-    if os.path.exists(ca_path):
-        ssl_ctx.load_verify_locations(cafile=ca_path)
-    # Enforce verification
+    if os.path.exists(CA_PATH):
+        ssl_ctx.load_verify_locations(cafile=CA_PATH)
+    else:
+        # Fail fast with a clear error if the CA file is missing
+        raise RuntimeError(f"MYSQL_SSL_CA_PATH not found at '{CA_PATH}'. Place the Aiven CA there or set the env var to a valid path.")
+
     ssl_ctx.check_hostname = True
     ssl_ctx.verify_mode = ssl.CERT_REQUIRED
 
     _engine = create_engine(
         url,
-        connect_args={"ssl": ssl_ctx},  # PyMySQL expects SSLContext or dict
+        connect_args={"ssl": ssl_ctx},
         pool_pre_ping=True,
         pool_recycle=1800,
         pool_size=5,
