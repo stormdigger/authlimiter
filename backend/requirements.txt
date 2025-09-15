@@ -5,5 +5,5 @@ pydantic
 httpx
 python-jose[cryptography]
 python-dotenv
-
+pymysql
 
