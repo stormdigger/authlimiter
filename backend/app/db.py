@@ -7,6 +7,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+
 Base = declarative_base()
 _engine: Optional[Engine] = None
 _SessionLocal: Optional[sessionmaker] = None  # type: ignore[var-annotated]
@@ -17,11 +18,11 @@ def _normalized_mysql_url(url: str) -> str:
     norm = url
     if norm.startswith("mysql://"):
         norm = "mysql+pymysql://" + norm[len("mysql://"):]
-    # Remove any stray ssl params to avoid PyMySQL string ssl bug
+    # strip any ssl params to avoid conflicts
     for bad in ("?ssl=true", "&ssl=true", "?ssl_mode=REQUIRED", "&ssl_mode=REQUIRED"):
-        if bad in norm:
-            norm = norm.replace(bad, "")
-    if norm.endswith("?"): norm = norm[:-1]
+        norm = norm.replace(bad, "")
+    if norm.endswith("?"):
+        norm = norm[:-1]
     return norm
 
 def init_engine_and_session() -> tuple[Engine, sessionmaker]:
@@ -31,13 +32,19 @@ def init_engine_and_session() -> tuple[Engine, sessionmaker]:
 
     url = _normalized_mysql_url(DATABASE_URL)
 
+    # Build SSL context that trusts Aiven CA
     ssl_ctx = ssl.create_default_context()
-    # If Aiven supplies a custom CA bundle you can load it:
-    # ssl_ctx.load_verify_locations(cafile="/etc/ssl/certs/ca-certificates.crt")
+    # Point to the CA you downloaded from Aiven
+    ca_path = os.getenv("MYSQL_SSL_CA_PATH", "backend/certs/aiven-ca.pem")
+    if os.path.exists(ca_path):
+        ssl_ctx.load_verify_locations(cafile=ca_path)
+    # Enforce verification
+    ssl_ctx.check_hostname = True
+    ssl_ctx.verify_mode = ssl.CERT_REQUIRED
 
     _engine = create_engine(
         url,
-        connect_args={"ssl": ssl_ctx},
+        connect_args={"ssl": ssl_ctx},  # PyMySQL expects SSLContext or dict
         pool_pre_ping=True,
         pool_recycle=1800,
         pool_size=5,
