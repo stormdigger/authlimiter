@@ -107,6 +107,214 @@ movie_booking_system/
     └── migrations/               # Database migrations
         └── __init__.py
 ```
+
 ---
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Python 3.10+** - [Download](https://www.python.org/downloads/)
+- **MySQL 8.0+** - [Download](https://dev.mysql.com/downloads/)
+- **MySQL Workbench** (Optional but recommended) - [Download](https://www.mysql.com/products/workbench/)
+- **Git** - [Download](https://git-scm.com/downloads/)
+- **pip** - Python package manager (comes with Python)
+
+---
+
+## 🚀 Installation & Setup
+
+### **Step 1: Clone the Repository**
+
+```
+git clone <your-repository-url>
+cd movie_booking_system
+```
+
+
+### **Step 2: Create Virtual Environment**
+
+**Windows:**
+
+```
+python -m venv venv
+venv\Scripts\activate
+```
+
+**Mac/Linux:**
+
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+
+
+You should see `(venv)` in your terminal prompt.
+
+### **Step 3: Install Dependencies**
+
+```
+pip install -r requirements.txt
+```
+
+
+---
+
+## 🔐 Environment Configuration
+
+### **Step 1: Generate Django SECRET_KEY**
+
+Run this command to generate a secure secret key:
+
+```
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+
+Copy the output (e.g., `django-insecure-k$8h2@m5n!p9q#r6s...`)
+
+### **Step 2: Create .env File**
+
+Create a `.env` file in the project root directory:
+
+
+### **Step 3: Configure Environment Variables**
+
+Open `.env` and add the following (replace with your actual values):
+
+```
+SECRET_KEY=your-generated-secret-key-paste-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+MySQL Database Configuration
+DB_ENGINE=django.db.backends.mysql
+DB_NAME=movie_booking_db
+DB_USER=root
+DB_PASSWORD=your_mysql_root_password
+DB_HOST=localhost
+DB_PORT=3306
+
+JWT Token Settings
+ACCESS_TOKEN_LIFETIME_HOURS=1
+REFRESH_TOKEN_LIFETIME_DAYS=7
+```
+
+
+**Important:** 
+- Replace `your-generated-secret-key-paste-here` with the key from Step 1
+- Replace `your_mysql_root_password` with your MySQL root password
+- **NEVER commit `.env` to Git** (it's already in `.gitignore`)
+
+---
+
+## 🗄 Database Setup
+
+### **Step 1: Open MySQL Workbench**
+
+1. Launch MySQL Workbench
+2. Connect to your local MySQL server
+3. Enter your root password
+
+### **Step 2: Create Database**
+
+Run this SQL command in MySQL Workbench:
+
+```
+CREATE DATABASE movie_booking_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+### **Step 4: Verify Django Connection**
+```
+python manage.py check
+```
+
+### **Step 5: Create Database Tables**
+
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+---
+
+## 🎯 Running the Application
+
+### **Step 1: Create Superuser (Admin Access)**
+
+```
+python manage.py createsuperuser
+```
+
+Follow the prompts:
+```
+Username: admin
+Email address: admin@example.com
+Password: ****
+Password (again): ****
+Superuser created successfully.
+```
+
+### **Step 2: Load Sample Data (Optional)**
+
+```
+python load_sample_data.py
+```
+### **Step 3: Start Development Server**
+```
+python manage.py runserver
+```
+
+### **Step 4: Access the Application**
+
+Open your browser and visit:
+
+- **Swagger UI:** http://127.0.0.1:8000/swagger/
+- **ReDoc:** http://127.0.0.1:8000/redoc/
+- **Admin Panel:** http://127.0.0.1:8000/admin/
+
+**Note:** The root URL `http://127.0.0.1:8000/` returns 404 by design (API-only backend).
+
+---
+
+## 📡 API Endpoints
+
+### **Authentication Endpoints**
+
+| Method | Endpoint | Description | Authentication |
+|--------|----------|-------------|----------------|
+| POST | `/api/signup/` | Register a new user | ❌ Public |
+| POST | `/api/login/` | Login and get JWT tokens | ❌ Public |
+| POST | `/api/token/refresh/` | Refresh access token | ❌ Public |
+
+### **Movie & Show Endpoints**
+
+| Method | Endpoint | Description | Authentication |
+|--------|----------|-------------|----------------|
+| GET | `/api/movies/` | List all movies | ✅ Required |
+| GET | `/api/movies/{movie_id}/shows/` | List shows for a movie | ✅ Required |
+
+### **Booking Endpoints**
+
+| Method | Endpoint | Description | Authentication |
+|--------|----------|-------------|----------------|
+| POST | `/api/shows/{show_id}/book/` | Book a seat for a show | ✅ Required |
+| POST | `/api/bookings/{booking_id}/cancel/` | Cancel a booking | ✅ Required |
+| GET | `/api/my-bookings/` | List user's bookings | ✅ Required |
+
+### **Documentation Endpoints**
+
+| Method | Endpoint | Description | Authentication |
+|--------|----------|-------------|----------------|
+| GET | `/swagger/` | Swagger UI documentation | ❌ Public |
+| GET | `/redoc/` | ReDoc documentation | ❌ Public |
+| GET | `/api/schema/` | OpenAPI 3.0 schema (JSON) | ❌ Public |
+
+---
+
+
+
+
+
+
 
 
