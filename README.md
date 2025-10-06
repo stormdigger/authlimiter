@@ -1,118 +1,77 @@
-MyAuthApp — FastAPI + Next.js + Auth0 (N-device concurrent logins)
+# 🎬 Movie Ticket Booking System API
 
-Overview
-- FastAPI backend enforces at most N concurrent devices per user (default 3).
-- Next.js frontend with Auth0 login, device-id persistence, and graceful eviction.
-- Blocking modal on N+1 login lets the user evict specific sessions or all.
+A robust Django REST Framework API for movie ticket booking with JWT authentication, race condition prevention, and comprehensive Swagger documentation.
 
-Prerequisites
-- Node.js 18+ and npm
-- Python 3.10+
-- An Auth0 tenant
+[![Django](https://img.shields.io/badge/Django-5.2.7-green.svg)](https://www.djangoproject.com/)
+[![DRF](https://img.shields.io/badge/DRF-3.14.0-red.svg)](https://www.django-rest-framework.org/)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://www.mysql.com/)
 
-Directory structure
-```
-MyAuthApp/
-  backend/
-  frontend/
-  AUTH0_SETUP.md
-  README.md
-```
+---
 
-1) Clone and install
-```
-git clone <your-repo-url>
-cd MyAuthApp
+## 📑 Table of Contents
 
-# Frontend deps
-cd frontend
-npm install
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Prerequisites](#-prerequisites)
+- [Installation & Setup](#-installation--setup)
+- [Environment Configuration](#-environment-configuration)
+- [Database Setup](#-database-setup)
+- [Running the Application](#-running-the-application)
+- [API Endpoints](#-api-endpoints)
+- [Authentication Flow](#-authentication-flow)
+- [Booking Mechanism](#-booking-mechanism)
+- [API Usage Examples](#-api-usage-examples)
+- [Swagger Documentation](#-swagger-documentation)
+- [Testing](#-testing)
+- [Security Features](#-security-features)
+- [Business Logic](#-business-logic)
+- [Error Handling](#-error-handling)
+- [Troubleshooting](#-troubleshooting)
+- [License](#-license)
 
-# Backend venv + deps (Windows PowerShell)
-cd ../backend
-python -m venv .venv
-./.venv/Scripts/Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
+---
 
-2) Configure Auth0
-See `AUTH0_SETUP.md` for screenshots/values. Summary:
-- Create Regular Web Application (RS256)
-- Allowed Callback: http://localhost:3000/api/auth/callback
-- Allowed Logout: http://localhost:3000
-- Allowed Web Origins: http://localhost:3000
-- Create an API (RS256). Copy its Identifier as AUTH0_AUDIENCE.
+## ✨ Features
 
-3) Environment files
-Copy examples and fill values.
-```
-# Frontend
-cd ../frontend
-copy env.example .env.local   # Windows
-```
-Fill `.env.local`:
-```
-AUTH0_SECRET=GENERATE_A_LONG_RANDOM_STRING
-AUTH0_BASE_URL=http://localhost:3000
-AUTH0_ISSUER_BASE_URL=https://YOUR_TENANT_REGION.auth0.com
-AUTH0_CLIENT_ID=YOUR_CLIENT_ID
-AUTH0_CLIENT_SECRET=YOUR_CLIENT_SECRET
-AUTH0_AUDIENCE=YOUR_API_IDENTIFIER
-NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
-```
+- ✅ **JWT Authentication** - Secure access and refresh tokens
+- ✅ **User Management** - Signup and login functionality
+- ✅ **Movie & Show Listings** - Browse available movies and showtimes
+- ✅ **Seat Booking** - Book specific seats with real-time availability
+- ✅ **Booking Management** - View and cancel your bookings
+- ✅ **Race Condition Prevention** - Database-level locking for concurrent bookings
+- ✅ **Double Booking Protection** - Unique constraints at database level
+- ✅ **Overbooking Prevention** - Capacity validation before booking
+- ✅ **User Isolation** - Users can only manage their own bookings
+- ✅ **Comprehensive Tests** - Unit tests for all critical functionality
+- ✅ **Interactive API Docs** - Swagger UI and ReDoc
+- ✅ **Admin Panel** - Django admin for data management
 
-Backend env:
-```
-cd ../backend
-copy env.example .env
-```
-Fill `backend/.env`:
-```
-AUTH0_DOMAIN=YOUR_TENANT_REGION.auth0.com
-AUTH0_AUDIENCE=YOUR_API_IDENTIFIER
-SESSION_MAX_CONCURRENT=3
-DATABASE_URL=sqlite:///./app.db
-```
+---
 
-4) Run servers
-Backend (port 8000):
-```
-cd backend
-./.venv/Scripts/Activate.ps1
-python -m uvicorn app.main:app --reload --port 8000
-```
+## 🛠 Tech Stack
 
-Frontend (port 3000):
-```
-cd ../frontend
-npm run dev
-```
+### **Backend Framework**
+- **Django 5.2.7** - High-level Python web framework
+- **Django REST Framework 3.14.0** - Powerful toolkit for building Web APIs
 
-Open http://localhost:3000
+### **Authentication**
+- **djangorestframework-simplejwt 5.3.0** - JWT authentication with access & refresh tokens
 
-5) Verify setup
-- Frontend env check: open http://localhost:3000/api/env-check → expect `{ ok: true }` and `issuerReachable: true`.
-- Backend health: GET http://localhost:8000/health → `{ "status": "ok" }`.
-- Login: click Login → Profile. You should see device id and active count.
+### **Database**
+- **MySQL 8.0+** - Relational database for production
+- **mysqlclient 2.2.0** - MySQL connector for Django
 
-6) N-device behavior
-- Log in on more than N devices: Profile shows a blocking modal listing active sessions.
-- Choose Evict on a target or Evict all. Current device auto-retries login.
-- Evicted devices detect revocation on heartbeat and are gracefully logged out.
+### **API Documentation**
+- **drf-spectacular 0.27.0** - OpenAPI 3.0 schema generation
+- **Swagger UI** - Interactive API documentation
+- **ReDoc** - Alternative API documentation
 
-7) Common pitfalls
-- AUTH0_ISSUER_BASE_URL must include `https://` prefix.
-- AUTH0_AUDIENCE must match the Auth0 API Identifier exactly.
-- If port 3000 is busy, stop other Next.js processes. The `dev` script pins to 3000.
-- If backend cannot fetch JWKS, re-check `AUTH0_DOMAIN` in backend `.env`.
+### **Configuration Management**
+- **python-decouple 3.8** - Environment variable management
 
-8) Scripts
-- Frontend: `npm run dev | build | start`
-- Backend: `python -m uvicorn app.main:app --reload --port 8000`
+---
 
-9) Notes
-- SQLite db file `backend/app.db` is local dev only.
-- Device id persists in `localStorage`; revoked ids force re-login.
-
+## 📂 Project Structure
 
