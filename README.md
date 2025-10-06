@@ -311,6 +311,87 @@ Open your browser and visit:
 
 ---
 
+## 🧪 Testing Your API
+
+### **Option 1: Using Swagger UI (Recommended)**
+
+Open Swagger UI:
+
+[http://127.0.0.1:8000/swagger/](http://127.0.0.1:8000/swagger/)
+
+**Test Signup (Create a user):**
+1. Click on **POST /api/signup/**
+2. Click **"Try it out"**
+3. Enter JSON:
+```
+{
+"username": "j
+john@example.com",
+"password": "johnpass
+23", "password2": "jo
+```
+
+4. Click **"Execute"**
+
+**Test Login (Get JWT Token):**
+1. Click on **POST /api/login/**
+2. Click **"Try it out"**
+3. Enter JSON:
+```
+{
+"username": "j
+hn", "password": "jo
+```
+
+4. Click **"Execute"**
+5. Copy the **access** token from the response
+
+**Authorize in Swagger (Add JWT Token):**
+1. Click the **"Authorize"** button at the top (🔒 icon)
+2. Enter: `Bearer <your_access_token>`
+   - Example: `Bearer eyJ0eXAiOiJKV1QiLCJhbGc...`
+3. Click **"Authorize"**
+4. Click **"Close"**
+
+**Test Protected Endpoints:**
+Now all API calls will include your JWT token!
+
+- **GET /api/movies/** - List all movies
+- **GET /api/movies/1/shows/** - List shows for movie #1
+- **POST /api/shows/1/book/** - Book a seat:
+```
+{
+"seat_number"
+```
+
+- **GET /api/my-bookings/** - View your bookings
+- **POST /api/bookings/1/cancel/** - Cancel booking #1
+
+### **Option 2: Using cURL (Command Line)**
+
+```
+1. Signup
+curl -X POST http://127.0.0.1:8000/api/signup/
+-H "Content-Type: application/json"
+-d "{\"username\":\"john\",\"email\":\"john@example.com\",\"password\":\"johnpass123\",\"password2\":\"johnpass123\"}"
+
+2. Login (save the access token)
+curl -X POST http://127.0.0.1:8000/api/login/
+-H "Content-Type: application/json"
+-d "{\"username\":\"john\",\"password\":\"johnpass123\"}"
+
+3. List movies (replace <token> with your access token)
+curl -X GET http://127.0.0.1:8000/api/movies/
+-H "Authorization: Bearer <your_access_token>"
+
+4. Book a seat
+curl -X POST http://127.0.0.1:8000/api/shows/1/book/
+-H "Authorization: Bearer <your_access_token>"
+-H "Content-Type: application/json"
+-d "{\"seat_number\":15}"
+```
+
+
 
 
 
