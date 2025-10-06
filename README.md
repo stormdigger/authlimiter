@@ -20,16 +20,6 @@ A robust Django REST Framework API for movie ticket booking with JWT authenticat
 - [Database Setup](#-database-setup)
 - [Running the Application](#-running-the-application)
 - [API Endpoints](#-api-endpoints)
-- [Authentication Flow](#-authentication-flow)
-- [Booking Mechanism](#-booking-mechanism)
-- [API Usage Examples](#-api-usage-examples)
-- [Swagger Documentation](#-swagger-documentation)
-- [Testing](#-testing)
-- [Security Features](#-security-features)
-- [Business Logic](#-business-logic)
-- [Error Handling](#-error-handling)
-- [Troubleshooting](#-troubleshooting)
-- [License](#-license)
 
 ---
 
@@ -78,33 +68,33 @@ A robust Django REST Framework API for movie ticket booking with JWT authenticat
 ```
 movie_booking_system/
 │
-├── manage.py                      # Django management script
-├── requirements.txt               # Python dependencies
-├── .env                          # Environment variables (DO NOT COMMIT)
-├── .env.example                  # Environment template (commit this)
-├── .gitignore                    # Git ignore rules
-├── README.md                     # This file
-├── load_sample_data.py           # Script to populate sample data
+├── manage.py                      
+├── requirements.txt               
+├── .env                          
+├── .env.example                  
+├── .gitignore                   
+├── README.md                  
+├── load_sample_data.py           
 │
-├── movie_booking/                # Main project configuration
+├── movie_booking/               
 │   ├── __init__.py
-│   ├── settings.py               # Django settings with MySQL config
-│   ├── urls.py                   # Root URL configuration
-│   ├── wsgi.py                   # WSGI configuration
-│   └── asgi.py                   # ASGI configuration
+│   ├── settings.py               
+│   ├── urls.py                   
+│   ├── wsgi.py                   
+│   └── asgi.py                   
 │
-└── booking/                      # Main application
+└── booking/                     
     ├── __init__.py
-    ├── admin.py                  # Django admin configuration
-    ├── apps.py                   # App configuration
-    ├── models.py                 # Database models (Movie, Show, Booking)
-    ├── serializers.py            # DRF serializers
-    ├── views.py                  # API view logic
-    ├── urls.py                   # App URL patterns
-    ├── permissions.py            # Custom permissions
-    ├── exceptions.py             # Custom exceptions
-    ├── tests.py                  # Unit tests
-    └── migrations/               # Database migrations
+    ├── admin.py                  
+    ├── apps.py                   
+    ├── models.py                
+    ├── serializers.py          
+    ├── views.py                 
+    ├── urls.py                 
+    ├── permissions.py           
+    ├── exceptions.py            
+    ├── tests.py                 
+    └── migrations/               
         └── __init__.py
 ```
 
@@ -127,8 +117,7 @@ Before you begin, ensure you have the following installed:
 ### **Step 1: Clone the Repository**
 
 ```
-git clone <your-repository-url>
-cd movie_booking_system
+git clone https://github.com/stormdigger/MovieBookingApi
 ```
 
 
@@ -200,12 +189,6 @@ ACCESS_TOKEN_LIFETIME_HOURS=1
 REFRESH_TOKEN_LIFETIME_DAYS=7
 ```
 
-
-**Important:** 
-- Replace `your-generated-secret-key-paste-here` with the key from Step 1
-- Replace `your_mysql_root_password` with your MySQL root password
-- **NEVER commit `.env` to Git** (it's already in `.gitignore`)
-
 ---
 
 ## 🗄 Database Setup
@@ -223,7 +206,7 @@ Run this SQL command in MySQL Workbench:
 ```
 CREATE DATABASE movie_booking_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
-### **Step 4: Verify Django Connection**
+### **Step 4: Verify Django Connection (In Terminal)**
 ```
 python manage.py check
 ```
@@ -254,7 +237,7 @@ Password (again): ****
 Superuser created successfully.
 ```
 
-### **Step 2: Load Sample Data (Optional)**
+### **Step 2: Load Sample Data**
 
 ```
 python load_sample_data.py
@@ -276,6 +259,89 @@ Open your browser and visit:
 
 ---
 
+## 🧪 Testing Your API
+
+### **Option 1: Using Swagger UI (Recommended)**
+
+Open Swagger UI:
+
+[http://127.0.0.1:8000/swagger/](http://127.0.0.1:8000/swagger/)
+
+**Test Signup (Create a user):**
+1. Click on **POST /api/signup/**
+2. Click **"Try it out"**
+3. Enter JSON:
+```
+{
+  "username": "User1",
+  "email": "user1@example.com",
+  "password": "****",
+  "password2": "****"
+}
+```
+
+4. Click **"Execute"**
+
+**Test Login (Get JWT Token):**
+1. Click on **POST /api/login/**
+2. Click **"Try it out"**
+3. Enter JSON:
+```
+{
+  "username": "User1",
+  "password": "****"
+}
+```
+
+4. Click **"Execute"**
+5. Copy the **access** token from the response
+
+**Authorize in Swagger (Add JWT Token):**
+1. Click the **"Authorize"** button at the top (🔒 icon)
+2. Enter: `<your_access_token>`
+   - Example: `eyJ0eXAiOiJKV1QiLCJhbGc...`
+3. Click **"Authorize"**
+4. Click **"Close"**
+
+**Test Protected Endpoints:**
+Now all API calls will include your JWT token!
+
+- **GET /api/movies/** - List all movies
+- **GET /api/movies/1/shows/** - List shows for movie #1
+- **POST /api/shows/1/book/** - Book a seat:
+```
+{
+  "seat_number": 1
+}
+```
+
+- **GET /api/my-bookings/** - View your bookings
+- **POST /api/bookings/1/cancel/** - Cancel booking #1
+
+### **Option 2: Using cURL (Command Line)**
+
+```
+1. Signup
+curl -X POST http://127.0.0.1:8000/api/signup/
+-H "Content-Type: application/json"
+-d "{\"username\":\"john\",\"email\":\"john@example.com\",\"password\":\"johnpass123\",\"password2\":\"johnpass123\"}"
+
+2. Login (save the access token)
+curl -X POST http://127.0.0.1:8000/api/login/
+-H "Content-Type: application/json"
+-d "{\"username\":\"john\",\"password\":\"johnpass123\"}"
+
+3. List movies (replace <token> with your access token)
+curl -X GET http://127.0.0.1:8000/api/movies/
+-H "Authorization: <your_access_token>"
+
+4. Book a seat
+curl -X POST http://127.0.0.1:8000/api/shows/1/book/
+-H "Authorization: Bearer <your_access_token>"
+-H "Content-Type: application/json"
+-d "{\"seat_number\":15}"
+```
+---
 ## 📡 API Endpoints
 
 ### **Authentication Endpoints**
@@ -308,90 +374,6 @@ Open your browser and visit:
 | GET | `/swagger/` | Swagger UI documentation | ❌ Public |
 | GET | `/redoc/` | ReDoc documentation | ❌ Public |
 | GET | `/api/schema/` | OpenAPI 3.0 schema (JSON) | ❌ Public |
-
----
-
-## 🧪 Testing Your API
-
-### **Option 1: Using Swagger UI (Recommended)**
-
-Open Swagger UI:
-
-[http://127.0.0.1:8000/swagger/](http://127.0.0.1:8000/swagger/)
-
-**Test Signup (Create a user):**
-1. Click on **POST /api/signup/**
-2. Click **"Try it out"**
-3. Enter JSON:
-```
-{
-"username": "j
-john@example.com",
-"password": "johnpass
-23", "password2": "jo
-```
-
-4. Click **"Execute"**
-
-**Test Login (Get JWT Token):**
-1. Click on **POST /api/login/**
-2. Click **"Try it out"**
-3. Enter JSON:
-```
-{
-"username": "j
-hn", "password": "jo
-```
-
-4. Click **"Execute"**
-5. Copy the **access** token from the response
-
-**Authorize in Swagger (Add JWT Token):**
-1. Click the **"Authorize"** button at the top (🔒 icon)
-2. Enter: `Bearer <your_access_token>`
-   - Example: `Bearer eyJ0eXAiOiJKV1QiLCJhbGc...`
-3. Click **"Authorize"**
-4. Click **"Close"**
-
-**Test Protected Endpoints:**
-Now all API calls will include your JWT token!
-
-- **GET /api/movies/** - List all movies
-- **GET /api/movies/1/shows/** - List shows for movie #1
-- **POST /api/shows/1/book/** - Book a seat:
-```
-{
-"seat_number"
-```
-
-- **GET /api/my-bookings/** - View your bookings
-- **POST /api/bookings/1/cancel/** - Cancel booking #1
-
-### **Option 2: Using cURL (Command Line)**
-
-```
-1. Signup
-curl -X POST http://127.0.0.1:8000/api/signup/
--H "Content-Type: application/json"
--d "{\"username\":\"john\",\"email\":\"john@example.com\",\"password\":\"johnpass123\",\"password2\":\"johnpass123\"}"
-
-2. Login (save the access token)
-curl -X POST http://127.0.0.1:8000/api/login/
--H "Content-Type: application/json"
--d "{\"username\":\"john\",\"password\":\"johnpass123\"}"
-
-3. List movies (replace <token> with your access token)
-curl -X GET http://127.0.0.1:8000/api/movies/
--H "Authorization: Bearer <your_access_token>"
-
-4. Book a seat
-curl -X POST http://127.0.0.1:8000/api/shows/1/book/
--H "Authorization: Bearer <your_access_token>"
--H "Content-Type: application/json"
--d "{\"seat_number\":15}"
-```
-
-
 
 
 
