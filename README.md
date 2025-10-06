@@ -75,3 +75,38 @@ A robust Django REST Framework API for movie ticket booking with JWT authenticat
 
 ## 📂 Project Structure
 
+```
+movie_booking_system/
+│
+├── manage.py                      # Django management script
+├── requirements.txt               # Python dependencies
+├── .env                          # Environment variables (DO NOT COMMIT)
+├── .env.example                  # Environment template (commit this)
+├── .gitignore                    # Git ignore rules
+├── README.md                     # This file
+├── load_sample_data.py           # Script to populate sample data
+│
+├── movie_booking/                # Main project configuration
+│   ├── __init__.py
+│   ├── settings.py               # Django settings with MySQL config
+│   ├── urls.py                   # Root URL configuration
+│   ├── wsgi.py                   # WSGI configuration
+│   └── asgi.py                   # ASGI configuration
+│
+└── booking/                      # Main application
+    ├── __init__.py
+    ├── admin.py                  # Django admin configuration
+    ├── apps.py                   # App configuration
+    ├── models.py                 # Database models (Movie, Show, Booking)
+    ├── serializers.py            # DRF serializers
+    ├── views.py                  # API view logic
+    ├── urls.py                   # App URL patterns
+    ├── permissions.py            # Custom permissions
+    ├── exceptions.py             # Custom exceptions
+    ├── tests.py                  # Unit tests
+    └── migrations/               # Database migrations
+        └── __init__.py
+```
+---
+
+
