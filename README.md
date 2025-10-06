@@ -375,6 +375,8 @@ curl -X POST http://127.0.0.1:8000/api/shows/1/book/
 | GET | `/redoc/` | ReDoc documentation | ❌ Public |
 | GET | `/api/schema/` | OpenAPI 3.0 schema (JSON) | ❌ Public |
 
+## 📡 Api screenshot
+<img width="1887" height="1006" alt="image" src="https://github.com/user-attachments/assets/51029f77-c1b2-4e87-b167-5bd922c11507" />
 
 
 
